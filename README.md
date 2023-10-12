@@ -23,6 +23,10 @@ Ajout d'espace fine insécable avant les signes doubles en français.
 
 ```
 
+## Sources
+
+- https://fr.wikipedia.org/wiki/Code_typographique
+- http://www.orthotypographie.fr/
 
 ## Development
 

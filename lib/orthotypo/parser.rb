@@ -25,7 +25,6 @@ module Orthotypo
         correct = "\\1" + NNBSP + sign
         no_space = /(\w)[#{sign}]/
         @ortho.gsub! no_space, correct
-        # @ortho.regexp(\[^[:space:]:]\, )
       end
     end
   end

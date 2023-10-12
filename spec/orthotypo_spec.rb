@@ -16,4 +16,14 @@ describe Orthotypo do
   it 'fixes space before simple punctuation' do
     expect("mot , suite".ortho).to(eq("mot, suite"))
   end
+  
+  it 'fixes quotation marks' do
+    expect("«mot»".ortho).to(eq("« mot »"))
+    expect("« mot »".ortho).to(eq("« mot »"))
+    expect("“ mot ”".ortho).to(eq("“mot”"))
+    expect("‘ mot ’".ortho).to(eq("‘mot’"))
+    expect("‹ mot ›".ortho).to(eq("‹mot›"))
+    expect("\" mot \"".ortho).to(eq("\"mot\""))
+    expect("' mot '".ortho).to(eq("'mot'"))
+  end
 end

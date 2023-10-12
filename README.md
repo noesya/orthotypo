@@ -25,6 +25,15 @@ Ajout d'espace fine insécable avant les signes doubles en français.
 
 ```
 
+## Roadmap
+
+### v1
+1. S'adapter aux locales (détecter I18n)
+2. Ne pas endommager l'HTML et les HTML entities (&nbsp;)
+
+### v2
+Permettre les configs
+
 ## Sources
 
 - https://fr.wikipedia.org/wiki/Code_typographique

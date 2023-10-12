@@ -7,15 +7,18 @@ module Orthotypo
     NNBSP = ' '.freeze
     PUNCTUATION_DOUBLE = ';:!?'.freeze
     PUNCTUATION_SIMPLE = ',.'.freeze
-    QUOTATION_MARKS_WITH_SPACE_AROUND = [
+    PAIRS_WITH_SPACE_AROUND = [
       '«»'
     ].freeze
-    QUOTATION_MARKS_WITH_NO_SPACE_AROUND = [
+    PAIRS_WITH_NO_SPACE_AROUND = [
       '“”',
       '‘’',
       '‹›',
       '""',
-      "''"
+      "''",
+      "()",
+      "{}",
+      "[]"
     ].freeze
 
     def initialize(string)
@@ -29,8 +32,8 @@ module Orthotypo
     def parse
       parse_punctuation_double
       parse_punctuation_simple
-      parse_quotation_marks_with_space_around
-      parse_quotation_marks_with_no_space_around
+      parse_pairs_with_space_around
+      parse_pairs_with_no_space_around
       parse_percent
     end
 
@@ -50,8 +53,8 @@ module Orthotypo
       end
     end
 
-    def parse_quotation_marks_with_space_around
-      QUOTATION_MARKS_WITH_SPACE_AROUND.each do |marks|
+    def parse_pairs_with_space_around
+      PAIRS_WITH_SPACE_AROUND.each do |marks|
         opening = marks.chars.first
         closing = marks.chars.last
         # Espace normal -> espace insécable
@@ -63,8 +66,8 @@ module Orthotypo
       end
     end
 
-    def parse_quotation_marks_with_no_space_around
-      QUOTATION_MARKS_WITH_NO_SPACE_AROUND.each do |marks|
+    def parse_pairs_with_no_space_around
+      PAIRS_WITH_NO_SPACE_AROUND.each do |marks|
         opening = marks.chars.first
         closing = marks.chars.last
         # Espace -> pas d'espace
@@ -74,7 +77,8 @@ module Orthotypo
     end
 
     def parse_percent
-
+      fix(SPACE + '%', NNBSP + '%')
+      fix(/([[:alnum:]])%/, "\\1" + NNBSP + '%')
     end
 
     def fix(bad, good)

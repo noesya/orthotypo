@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Arnaud Levy"]
   spec.email = ["arnaud.levy@noesya.coop"]
 
-  spec.summary = "Texte correctement typographié"
-  spec.description = "Il y a un corpus riche de règles typographiques, dépendant des langues. Cette gem vise à intégrer ces règles et à automatiser leurs mises en application pour le web, quand cela est possible."
+  spec.summary = "Pour un texte correctement typographié"
+  spec.description = "Il y a un corpus riche de règles typographiques, dépendant des langues. Cette gem vise à intégrer ces règles et à automatiser leur mise en application pour le web, quand cela est possible."
   spec.homepage = "https://github.com/noesya/orthotypo"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"

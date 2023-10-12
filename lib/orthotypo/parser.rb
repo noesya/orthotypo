@@ -28,7 +28,7 @@ module Orthotypo
         @ortho.gsub! wrong_space, correct
         # Pas d'espace -> espace fine insécable
         correct = "\\1" + NNBSP + char
-        no_space = /(\w)[#{char}]/
+        no_space = /([[:alnum:]])[#{char}]/
         @ortho.gsub! no_space, correct
       end
     end

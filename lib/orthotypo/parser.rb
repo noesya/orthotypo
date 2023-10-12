@@ -22,8 +22,9 @@ module Orthotypo
         wrong_space = SPACE + sign
         @ortho.gsub! wrong_space, correct
         # Pas d'espace -> espace fine insécable
-        # no_space = /(\w)#{sign}/
-        # @ortho.gsub! no_space, correct
+        correct = "\\1" + NNBSP + sign
+        no_space = /(\w)[#{sign}]/
+        @ortho.gsub! no_space, correct
         # @ortho.regexp(\[^[:space:]:]\, )
       end
     end

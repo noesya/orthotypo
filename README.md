@@ -38,6 +38,7 @@ Permettre les configs
 
 - https://fr.wikipedia.org/wiki/Code_typographique
 - http://www.orthotypographie.fr/
+- https://www.scribbr.fr/elements-linguistiques/les-espaces/
 
 ## Development
 

@@ -4,8 +4,8 @@ module Orthotypo
 
     SPACE = ' '.freeze
     NNBSP = ' '.freeze
-    DOUBLE_SIGNS = ';:!?'.freeze
-    SIMPLE_SIGNS = ',.'.freeze
+    PUNCTUATION_DOUBLE = ';:!?'.freeze
+    PUNCTUATION_SIMPLE = ',.'.freeze
 
     def initialize(string)
       @string = string
@@ -16,15 +16,29 @@ module Orthotypo
     protected
 
     def parse
-      DOUBLE_SIGNS.each_char do |sign|
+      parse_punctuation_double
+      parse_punctuation_simple
+    end
+
+    def parse_punctuation_double
+      PUNCTUATION_DOUBLE.each_char do |char|
         # Espace normal -> espace fine insécable
-        correct = NNBSP + sign
-        wrong_space = SPACE + sign
+        correct = NNBSP + char
+        wrong_space = SPACE + char
         @ortho.gsub! wrong_space, correct
         # Pas d'espace -> espace fine insécable
-        correct = "\\1" + NNBSP + sign
-        no_space = /(\w)[#{sign}]/
+        correct = "\\1" + NNBSP + char
+        no_space = /(\w)[#{char}]/
         @ortho.gsub! no_space, correct
+      end
+    end
+
+    def parse_punctuation_simple
+      PUNCTUATION_SIMPLE.each_char do |char|
+        # Espace normal -> espace fine insécable
+        correct = char
+        wrong_space = SPACE + char
+        @ortho.gsub! wrong_space, correct
       end
     end
   end

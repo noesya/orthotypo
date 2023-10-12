@@ -1,5 +1,7 @@
 # Orthotypo
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/16eb1f100538684deee0/maintainability)](https://codeclimate.com/github/noesya/orthotypo/maintainability)
+
 Il y a un corpus riche de règles typographiques, dépendant des langues. 
 Cette gem vise à intégrer ces règles et à automatiser leurs mises en application pour le web, quand cela est possible.
 
@@ -34,7 +36,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/orthotypo. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/orthotypo/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/noesya/orthotypo. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/orthotypo/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 

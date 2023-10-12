@@ -26,4 +26,9 @@ describe Orthotypo do
     expect("\" mot \"".ortho).to(eq("\"mot\""))
     expect("' mot '".ortho).to(eq("'mot'"))
   end
+
+  it 'fixes percent' do
+    expect("10%".ortho).to(eq("10 %"))
+    expect("10 %".ortho).to(eq("10 %"))
+  end
 end

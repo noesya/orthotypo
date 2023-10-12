@@ -31,6 +31,7 @@ module Orthotypo
       parse_punctuation_simple
       parse_quotation_marks_with_space_around
       parse_quotation_marks_with_no_space_around
+      parse_percent
     end
 
     def parse_punctuation_double
@@ -70,6 +71,10 @@ module Orthotypo
         fix(opening + SPACE, opening)
         fix(SPACE + closing, closing)
       end
+    end
+
+    def parse_percent
+
     end
 
     def fix(bad, good)

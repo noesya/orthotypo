@@ -69,6 +69,8 @@ module Orthotypo
       # Pairs
       pairs_with_space_around
       pairs_with_no_space_around
+      # Numbers
+      numbers
     end
 
     def chars_with_space_before
@@ -127,6 +129,12 @@ module Orthotypo
         # Espace -> pas d'espace
         fix(opening + SPACE, opening)
         fix(SPACE + closing, closing)
+      end
+    end
+
+    def numbers
+      ['.', ','].each do |char|
+        fix(/([[:digit:]])[#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
       end
     end
 

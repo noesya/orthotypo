@@ -1,15 +1,13 @@
 module Orthotypo
-  class Parser
+  class Composer
     attr_reader :string, :ortho
 
     SPACE = ' '.freeze
     NBSP = ' '.freeze
     NNBSP = ' '.freeze
 
-    def initialize(string, locale = nil, html = nil)
+    def initialize(string, html: nil)
       @string = string
-      @locale = locale
-      determine_locale
       @html = html
       determine_html
       @ortho = string.dup
@@ -19,58 +17,30 @@ module Orthotypo
     protected
 
     def chars_with_space_before
-      [
-        '%'
-      ]
+      []
     end
 
     def chars_with_space_after
       [
         ',',
-        '.',
-        '...',
-        '…'
+        '.'
       ]
     end
     
     def chars_with_space_around
-      [
-        ';',
-        ':',
-        '!',
-        '?'
-      ]
+      []
     end
 
     def chars_with_no_space_around
-      [
-        "'",
-        '’',
-        'ʼ'
-      ]
+      []
     end
 
     def pairs_with_space_around
-      [
-        '«»'
-      ]
+      []
     end
     
     def pairs_with_no_space_around
-      [
-        '“”',
-        '‘’',
-        '‹›',
-        '""',
-        "''",
-        "()",
-        "{}",
-        "[]"
-      ]
-    end
-
-    def determine_locale
-      # TODO (avec I18n si présent)
+      []
     end
 
     def determine_html

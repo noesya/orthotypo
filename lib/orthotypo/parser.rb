@@ -6,40 +6,6 @@ module Orthotypo
     NBSP = ' '.freeze
     NNBSP = ' '.freeze
 
-    CHARS_WITH_SPACE_BEFORE = [
-      '%'
-    ].freeze
-    CHARS_WITH_SPACE_AFTER = [
-      ',',
-      '.',
-      '...',
-      '…'
-    ].freeze
-    CHARS_WITH_SPACE_AROUND = [
-      ';',
-      ':',
-      '!',
-      '?'
-    ].freeze
-    CHARS_WITH_NOSPACE_AROUND = [
-      "'",
-      '’',
-      'ʼ'
-    ].freeze
-    PAIRS_WITH_SPACE_AROUND = [
-      '«»'
-    ].freeze
-    PAIRS_WITH_NO_SPACE_AROUND = [
-      '“”',
-      '‘’',
-      '‹›',
-      '""',
-      "''",
-      "()",
-      "{}",
-      "[]"
-    ].freeze
-
     def initialize(string, locale = nil, html = nil)
       @string = string
       @locale = locale
@@ -52,6 +18,57 @@ module Orthotypo
 
     protected
 
+    def chars_with_space_before
+      [
+        '%'
+      ]
+    end
+
+    def chars_with_space_after
+      [
+        ',',
+        '.',
+        '...',
+        '…'
+      ]
+    end
+    
+    def chars_with_space_around
+      [
+        ';',
+        ':',
+        '!',
+        '?'
+      ]
+    end
+
+    def chars_with_no_space_around
+      [
+        "'",
+        '’',
+        'ʼ'
+      ]
+    end
+
+    def pairs_with_space_around
+      [
+        '«»'
+      ]
+    end
+    
+    def pairs_with_no_space_around
+      [
+        '“”',
+        '‘’',
+        '‹›',
+        '""',
+        "''",
+        "()",
+        "{}",
+        "[]"
+      ]
+    end
+
     def determine_locale
       # TODO (avec I18n si présent)
     end
@@ -62,19 +79,19 @@ module Orthotypo
 
     def parse
       # Chars
-      chars_with_space_before
-      chars_with_space_after
-      chars_with_space_around
-      chars_with_no_space_around
+      parse_chars_with_space_before
+      parse_chars_with_space_after
+      parse_chars_with_space_around
+      parse_chars_with_no_space_around
       # Pairs
-      pairs_with_space_around
-      pairs_with_no_space_around
+      parse_pairs_with_space_around
+      parse_pairs_with_no_space_around
       # Numbers
-      numbers
+      parse_numbers
     end
 
-    def chars_with_space_before
-      CHARS_WITH_SPACE_BEFORE.each do |char|
+    def parse_chars_with_space_before
+      chars_with_space_before.each do |char|
         # Espace normal avant -> espace fine insécable avant
         fix(SPACE + '%', NNBSP + '%')
         # Pas d'espace avant -> espace fine insécable avant
@@ -82,8 +99,8 @@ module Orthotypo
       end
     end
 
-    def chars_with_space_after
-      CHARS_WITH_SPACE_AFTER.each do |char|
+    def parse_chars_with_space_after
+      chars_with_space_after.each do |char|
         # Espace avant -> pas d'espace avant 
         fix(SPACE + char, char)
         # Pas d'espace après -> espace après
@@ -91,8 +108,8 @@ module Orthotypo
       end
     end
 
-    def chars_with_space_around
-      CHARS_WITH_SPACE_AROUND.each do |char|
+    def parse_chars_with_space_around
+      chars_with_space_around.each do |char|
         # Espace normal avant -> espace fine insécable avant
         fix(SPACE + char, NNBSP + char)
         # Pas d'espace avant -> espace fine insécable avant
@@ -100,8 +117,8 @@ module Orthotypo
       end
     end
 
-    def chars_with_no_space_around
-      CHARS_WITH_NOSPACE_AROUND.each do |char|
+    def parse_chars_with_no_space_around
+      chars_with_no_space_around.each do |char|
         # Espace avant -> pas d'espace avant 
         fix(SPACE + char, char)
         # Espace après -> pas d'espace après 
@@ -109,8 +126,8 @@ module Orthotypo
       end
     end
 
-    def pairs_with_space_around
-      PAIRS_WITH_SPACE_AROUND.each do |marks|
+    def parse_pairs_with_space_around
+      pairs_with_space_around.each do |marks|
         opening = marks.chars.first
         closing = marks.chars.last
         # Espace normal -> espace fine insécable
@@ -122,8 +139,8 @@ module Orthotypo
       end
     end
 
-    def pairs_with_no_space_around
-      PAIRS_WITH_NO_SPACE_AROUND.each do |marks|
+    def parse_pairs_with_no_space_around
+      pairs_with_no_space_around.each do |marks|
         opening = marks.chars.first
         closing = marks.chars.last
         # Espace -> pas d'espace
@@ -132,7 +149,7 @@ module Orthotypo
       end
     end
 
-    def numbers
+    def parse_numbers
       ['.', ','].each do |char|
         fix(/([[:digit:]])[#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
       end

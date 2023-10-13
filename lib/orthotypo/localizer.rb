@@ -23,10 +23,10 @@ module Orthotypo
 
     def composer_class_for(locale)
       formatted_locale = locale.split('-').map(&:capitalize).join
-      class_name = "Orthotypo::Composer::#{formatted_locale}"
-      class_name.constantize
+      class_name = "::Orthotypo::Composer::#{formatted_locale}"
+      Object.module_eval(class_name, __FILE__, __LINE__)
     rescue
+      nil
     end
   end
 end
-  

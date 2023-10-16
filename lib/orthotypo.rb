@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require "htmlentities"
+require "nokogiri"
 require "uri"
+require_relative "orthotypo/analyzer"
 require_relative "orthotypo/composer"
 require_relative "orthotypo/composer/fr"
 require_relative "orthotypo/composer/fr_fr"

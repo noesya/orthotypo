@@ -53,11 +53,13 @@ module Orthotypo
 
     def prepare_ortho
       @ortho = string.dup
-      @ortho = html_entities.decode(@ortho) if contains_html_entities?
+      # @ortho = html_entities.decode(@ortho) if contains_html_entities?
+      @nokogiri = Nokogiri::HTML.fragment @ortho
     end
 
     def clean_ortho
-      @ortho = html_entities.encode(@ortho) if contains_html_entities?
+      @ortho = @nokogiri.to_s
+      # @ortho = html_entities.encode(@ortho) if contains_html_entities?
     end
 
     def parse
@@ -74,41 +76,31 @@ module Orthotypo
       # Numbers
       parse_numbers
       # 
-      restore_precious_things
       clean_ortho
+      restore_precious_things
     end
 
     def preserve_precious_things
       @precious_things = []
-      @ortho = @ortho.split(SPACE).map { |fragment|
-        if is_precious?(fragment)
-          token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
-          @precious_things << fragment
-          token
-        else
-          fragment
-        end
-      }.join(SPACE)
+      @nokogiri.traverse do |node|
+        next unless node.text?
+        new_content = node.content.split(SPACE).map { |fragment|
+          if Analyzer::precious?(fragment)
+            token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
+            @precious_things << fragment
+            token
+          else
+            fragment
+          end
+        }.join(SPACE)
+        node.content = new_content
+      end
     end
 
     def restore_precious_things
       @precious_things.each_with_index do |value, index|
         @ortho.gsub! "#{PRECIOUS_TOKEN}#{index}", value
       end
-    end
-
-    def is_precious?(fragment)
-      is_email?(fragment) ||
-      is_url?(fragment)
-    end
-
-    def is_email?(fragment)
-      fragment =~ URI::MailTo::EMAIL_REGEXP
-    end
-
-    def is_url?(fragment)
-      # https://stackoverflow.com/questions/1805761/how-to-check-if-a-url-is-valid
-      fragment =~ URI::DEFAULT_PARSER.regexp[:ABS_URI]
     end
 
     def parse_chars_with_space_before
@@ -181,7 +173,10 @@ module Orthotypo
     end
 
     def fix(bad, good)
-      @ortho.gsub! bad, good
+      @nokogiri.traverse do |node|
+        next unless node.text?
+        node.content = node.content.gsub(bad, good)
+      end
     end
   end
 end

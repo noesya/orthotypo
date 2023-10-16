@@ -5,6 +5,7 @@ module Orthotypo
     SPACE = ' '.freeze
     NBSP = ' '.freeze
     NNBSP = ' '.freeze
+    PRECIOUS_TOKEN = 'orthotypopreciousthing'
 
     def initialize(string, html: nil)
       @string = string
@@ -61,6 +62,7 @@ module Orthotypo
 
     def parse
       prepare_ortho
+      preserve_precious_things
       # Chars
       parse_chars_with_space_before
       parse_chars_with_space_after
@@ -72,7 +74,41 @@ module Orthotypo
       # Numbers
       parse_numbers
       # 
+      restore_precious_things
       clean_ortho
+    end
+
+    def preserve_precious_things
+      @precious_things = []
+      @ortho = @ortho.split(SPACE).map { |fragment|
+        if is_precious?(fragment)
+          token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
+          @precious_things << fragment
+          token
+        else
+          fragment
+        end
+      }.join(SPACE)
+    end
+
+    def restore_precious_things
+      @precious_things.each_with_index do |value, index|
+        @ortho.gsub! "#{PRECIOUS_TOKEN}#{index}", value
+      end
+    end
+
+    def is_precious?(fragment)
+      is_email?(fragment) ||
+      is_url?(fragment)
+    end
+
+    def is_email?(fragment)
+      fragment =~ URI::MailTo::EMAIL_REGEXP
+    end
+
+    def is_url?(fragment)
+      # https://stackoverflow.com/questions/1805761/how-to-check-if-a-url-is-valid
+      fragment =~ URI::DEFAULT_PARSER.regexp[:ABS_URI]
     end
 
     def parse_chars_with_space_before

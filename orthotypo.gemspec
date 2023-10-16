@@ -17,7 +17,8 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/noesya/orthotypo"
 
-  spec.require_paths = ["lib"]
+  spec.files = `git ls-files`.split("\n")
+  spec.require_paths = "lib"
 
   spec.add_dependency "htmlentities"
 

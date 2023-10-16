@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Orthotypo do
-  it 'selects FR' do
+  it 'selects proper locale' do
     expect(Orthotypo::Localizer.new('').composer).to be_a Orthotypo::Composer::Fr
     expect(Orthotypo::Localizer.new('', locale: 'fr').composer).to be_a Orthotypo::Composer::Fr
     expect(Orthotypo::Localizer.new('', locale: 'fr-FR').composer).to be_a Orthotypo::Composer::FrFr

@@ -9,8 +9,6 @@ module Orthotypo
     def initialize(string, html: nil)
       @string = string
       @html = html
-      determine_html
-      @ortho = string.dup
       parse
     end
 
@@ -43,11 +41,26 @@ module Orthotypo
       []
     end
 
-    def determine_html
-      # TODO
+    def is_html?
+      # TODO contains tags?
+      @html || contains_html_entities?
+    end
+
+    def contains_html_entities?
+      @contains_html_entities ||= html_entities.decode(string) != string
+    end
+
+    def prepare_ortho
+      @ortho = string.dup
+      @ortho = html_entities.decode(@ortho) if contains_html_entities?
+    end
+
+    def clean_ortho
+      @ortho = html_entities.encode(@ortho) if contains_html_entities?
     end
 
     def parse
+      prepare_ortho
       # Chars
       parse_chars_with_space_before
       parse_chars_with_space_after
@@ -58,6 +71,8 @@ module Orthotypo
       parse_pairs_with_no_space_around
       # Numbers
       parse_numbers
+      # 
+      clean_ortho
     end
 
     def parse_chars_with_space_before
@@ -123,6 +138,10 @@ module Orthotypo
       ['.', ','].each do |char|
         fix(/([[:digit:]])[#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
       end
+    end
+
+    def html_entities
+      @html_entities ||= HTMLEntities.new(:expanded)
     end
 
     def fix(bad, good)

@@ -5,6 +5,7 @@ module Orthotypo
     SPACE = ' '.freeze
     NBSP = ' '.freeze
     NNBSP = ' '.freeze
+    PRECIOUS_TOKEN = 'orthotypopreciousthing'
 
     def initialize(string, html: nil)
       @string = string
@@ -52,15 +53,18 @@ module Orthotypo
 
     def prepare_ortho
       @ortho = string.dup
-      @ortho = html_entities.decode(@ortho) if contains_html_entities?
+      # @ortho = html_entities.decode(@ortho) if contains_html_entities?
+      @nokogiri = Nokogiri::HTML.fragment @ortho
     end
 
     def clean_ortho
-      @ortho = html_entities.encode(@ortho) if contains_html_entities?
+      @ortho = @nokogiri.to_s
+      # @ortho = html_entities.encode(@ortho) if contains_html_entities?
     end
 
     def parse
       prepare_ortho
+      preserve_precious_things
       # Chars
       parse_chars_with_space_before
       parse_chars_with_space_after
@@ -73,6 +77,30 @@ module Orthotypo
       parse_numbers
       # 
       clean_ortho
+      restore_precious_things
+    end
+
+    def preserve_precious_things
+      @precious_things = []
+      @nokogiri.traverse do |node|
+        next unless node.text?
+        new_content = node.content.split(SPACE).map { |fragment|
+          if Analyzer::precious?(fragment)
+            token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
+            @precious_things << fragment
+            token
+          else
+            fragment
+          end
+        }.join(SPACE)
+        node.content = new_content
+      end
+    end
+
+    def restore_precious_things
+      @precious_things.each_with_index do |value, index|
+        @ortho.gsub! "#{PRECIOUS_TOKEN}#{index}", value
+      end
     end
 
     def parse_chars_with_space_before
@@ -145,7 +173,10 @@ module Orthotypo
     end
 
     def fix(bad, good)
-      @ortho.gsub! bad, good
+      @nokogiri.traverse do |node|
+        next unless node.text?
+        node.content = node.content.gsub(bad, good)
+      end
     end
   end
 end

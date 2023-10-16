@@ -8,5 +8,6 @@ describe Orthotypo do
     expect(Orthotypo::Localizer.new('', locale: 'fr-CH').composer).to be_a Orthotypo::Composer::FrCh
     expect(Orthotypo::Localizer.new('', locale: 'en').composer).to be_a Orthotypo::Composer::En
     expect(Orthotypo::Localizer.new('', locale: 'en-GB').composer).to be_a Orthotypo::Composer::EnGb
+    expect(Orthotypo::Localizer.new('', locale: 'en-UNKNOWN').composer).to be_a Orthotypo::Composer::Fr
   end
 end

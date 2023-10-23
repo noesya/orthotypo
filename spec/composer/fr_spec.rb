@@ -47,8 +47,8 @@ describe Orthotypo::Composer::Fr do
   it 'fixes dates/time' do
     expect("10/01/2023 16:00".ortho).to(eq("10/01/2023 16:00"))
     expect("10/01/2023 16:00:00".ortho).to(eq("10/01/2023 16:00:00"))
-    expect("10 /01/2023 16:00".ortho).to(eq("10/01/2023 16:00"))
-    expect("10 /01/2023 16 : 00".ortho).to(eq("10/01/2023 16:00"))
+    expect("10 / 01 / 2023 16:00".ortho).to(eq("10/01/2023 16:00"))
+    expect("10 / 01 / 2023 16 : 00".ortho).to(eq("10/01/2023 16:00"))
     expect("10 octobre 2023 16:00".ortho).to(eq("10 octobre 2023 16:00"))
   end
 

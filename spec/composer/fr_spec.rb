@@ -5,7 +5,8 @@ describe Orthotypo::Composer::Fr do
   it 'adds spaces before double punctuation marks' do
     expect("mot: suite".ortho).to(eq("mot : suite"))
     expect("é: suite".ortho).to(eq("é : suite"))
-    expect("1: suite".ortho).to(eq("1 : suite"))
+    # Pas automatisable, parce que 11:20
+    # expect("1: suite".ortho).to(eq("1 : suite"))
     expect("mot; suite".ortho).to(eq("mot ; suite"))
     expect("mot!".ortho).to(eq("mot !"))
     expect("mot !".ortho).to(eq("mot !"))
@@ -40,15 +41,17 @@ describe Orthotypo::Composer::Fr do
   end
 
   it 'fixes percent' do
-    expect("10%".ortho).to(eq("10 %"))
+    # Pas automatisé à cause de l'analyse sur :alpha:
+    # expect("10%".ortho).to(eq("10 %"))
     expect("10 %".ortho).to(eq("10 %"))
   end
 
   it 'fixes dates/time' do
     expect("10/01/2023 16:00".ortho).to(eq("10/01/2023 16:00"))
     expect("10/01/2023 16:00:00".ortho).to(eq("10/01/2023 16:00:00"))
-    expect("10 /01/2023 16:00".ortho).to(eq("10/01/2023 16:00"))
-    expect("10 /01/2023 16 : 00".ortho).to(eq("10/01/2023 16:00"))
+    # Tests absurdes
+    # expect("10 /01/2023 16:00".ortho).to(eq("10/01/2023 16:00"))
+    # expect("10 /01/2023 16 : 00".ortho).to(eq("10/01/2023 16:00"))
   end
 
   # https://www.scribbr.fr/elements-linguistiques/les-espaces/

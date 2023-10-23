@@ -108,7 +108,7 @@ module Orthotypo
         # Espace normal avant -> espace fine insécable avant
         fix(SPACE + '%', NNBSP + '%')
         # Pas d'espace avant -> espace fine insécable avant
-        fix(/([[:alnum:]])%/, "\\1" + NNBSP + '%')
+        fix(/([[:alpha:]])%/, "\\1" + NNBSP + '%')
       end
     end
 
@@ -117,7 +117,7 @@ module Orthotypo
         # Espace avant -> pas d'espace avant 
         fix(SPACE + char, char)
         # Pas d'espace après -> espace après
-        fix(/[#{char}]([[:alnum:]])/, char + SPACE + "\\1")
+        fix(/[#{char}]([[:alpha:]])/, char + SPACE + "\\1")
       end
     end
 
@@ -126,7 +126,7 @@ module Orthotypo
         # Espace normal avant -> espace fine insécable avant
         fix(SPACE + char, NNBSP + char)
         # Pas d'espace avant -> espace fine insécable avant
-        fix(/([[:alnum:]])[#{char}]/, "\\1" + NNBSP + char)
+        fix(/([[:alpha:]])[#{char}]/, "\\1" + NNBSP + char)
       end
     end
 

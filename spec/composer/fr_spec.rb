@@ -41,8 +41,7 @@ describe Orthotypo::Composer::Fr do
   end
 
   it 'fixes percent' do
-    # Pas automatisé à cause de l'analyse sur :alpha:
-    # expect("10%".ortho).to(eq("10 %"))
+    expect("10%".ortho).to(eq("10 %"))
     expect("10 %".ortho).to(eq("10 %"))
   end
 
@@ -63,6 +62,7 @@ describe Orthotypo::Composer::Fr do
     expect("Il a dit : «J’arrive ce matin ( ou plus tard ) à Paris [ rue de la République ] pour son anniversaire.»".ortho).to(eq("Il a dit : « J’arrive ce matin (ou plus tard) à Paris [rue de la République] pour son anniversaire. »"))
     # Le test suivant n'est pas automatisable, parce qu'on ne peut distinguer un Paris-Brest (le gâteau) d'un Paris - Brest (le trajet)
     # expect("Nous l’avons rencontré à Saint - Martin.".ortho).to(eq("Nous l’avons rencontré à Saint-Martin."))
+    expect("Il roule pendant 31, 5 km.".ortho).to(eq("Il roule pendant 31,5 km."))
     # Le test suivant est-il automatisable ?
     # expect("Il roule pendant 31, 5km.".ortho).to(eq("Il roule pendant 31,5 km."))
     # Pas automatisable, rien ne permet de distinguer s'il s'agit d'un rang ou d'un nombre

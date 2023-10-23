@@ -19,6 +19,12 @@ module Orthotypo
       []
     end
 
+    def chars_with_space_before_after_digit
+      [
+        '%'
+      ]
+    end
+
     def chars_with_space_after
       [
         ',',
@@ -40,6 +46,22 @@ module Orthotypo
     
     def pairs_with_no_space_around
       []
+    end
+
+    def chars_with_no_space_around_between_digits
+      [
+        '/',
+        ':'
+      ]
+    end
+
+    def chars_in_numbers
+      [
+        '.', 
+        ',',
+        '/',
+        ':'
+      ]
     end
 
     def is_html?
@@ -67,6 +89,7 @@ module Orthotypo
       preserve_precious_things
       # Chars
       parse_chars_with_space_before
+      parse_chars_with_space_before_after_digit
       parse_chars_with_space_after
       parse_chars_with_space_around
       parse_chars_with_no_space_around
@@ -74,7 +97,7 @@ module Orthotypo
       parse_pairs_with_space_around
       parse_pairs_with_no_space_around
       # Numbers
-      parse_numbers
+      parse_chars_in_numbers
       # 
       clean_ortho
       restore_precious_things
@@ -106,9 +129,15 @@ module Orthotypo
     def parse_chars_with_space_before
       chars_with_space_before.each do |char|
         # Espace normal avant -> espace fine insécable avant
-        fix(SPACE + '%', NNBSP + '%')
+        fix(SPACE + char, NNBSP + char)
         # Pas d'espace avant -> espace fine insécable avant
-        fix(/([[:alpha:]])%/, "\\1" + NNBSP + '%')
+        fix(/([[:alpha:]])[#{char}]/, "\\1" + NNBSP + char)
+      end
+    end
+
+    def parse_chars_with_space_before_after_digit
+      chars_with_space_before_after_digit.each do |char|
+        fix(/([[:digit:]])[#{char}]/, "\\1" + NNBSP + char)
       end
     end
 
@@ -162,8 +191,10 @@ module Orthotypo
       end
     end
 
-    def parse_numbers
-      ['.', ','].each do |char|
+    def parse_chars_in_numbers
+      chars_in_numbers.each do |char|
+        fix(/([[:digit:]])[[:space:]][#{char}]([[:digit:]])/, "\\1" + char + "\\2")
+        fix(/([[:digit:]])[[:space:]][#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
         fix(/([[:digit:]])[#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
       end
     end

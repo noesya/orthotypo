@@ -28,10 +28,10 @@ Ajout d'espace fine insécable avant les signes doubles en français.
 ## Roadmap
 
 ### v1
-1. S'adapter aux locales (détecter I18n)
-2. Ne pas endommager l'HTML et les HTML entities (&nbsp;)
+Ne pas endommager l'HTML et les HTML entities (&nbsp;)
 
 ### v2
+S'adapter aux locales (détecter I18n)
 Permettre les configs
 
 ## Sources

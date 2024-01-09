@@ -34,6 +34,21 @@ Ne pas endommager l'HTML et les HTML entities (&nbsp;)
 S'adapter aux locales (détecter I18n)
 Permettre les configs
 
+## Tests
+
+```
+rake
+```
+
+```
+bundle exec rspec
+```
+
+Pour jouer un seul test : 
+```
+bundle exec rspec ./spec/composer/fr_spec.rb:56
+```
+
 ## Sources
 
 - https://fr.wikipedia.org/wiki/Code_typographique

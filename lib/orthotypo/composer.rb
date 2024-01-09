@@ -75,13 +75,11 @@ module Orthotypo
 
     def prepare_ortho
       @ortho = string.dup
-      # @ortho = html_entities.decode(@ortho) if contains_html_entities?
       @nokogiri = Nokogiri::HTML.fragment @ortho
     end
 
     def clean_ortho
       @ortho = @nokogiri.to_s
-      # @ortho = html_entities.encode(@ortho) if contains_html_entities?
     end
 
     def parse
@@ -98,7 +96,7 @@ module Orthotypo
       parse_pairs_with_no_space_around
       # Numbers
       parse_chars_in_numbers
-      # 
+      #
       clean_ortho
       restore_precious_things
     end
@@ -106,18 +104,38 @@ module Orthotypo
     def preserve_precious_things
       @precious_things = []
       @nokogiri.traverse do |node|
-        next unless node.text?
-        new_content = node.content.split(SPACE).map { |fragment|
-          if Analyzer::precious?(fragment)
-            token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
-            @precious_things << fragment
-            token
-          else
-            fragment
+        if node.text?
+          has_leading_space = node.content.start_with? SPACE
+          has_trailing_space = node.content.end_with? SPACE
+          node.content = node.content.split(SPACE).map { |fragment|
+            store_if_precious(fragment)  
+          }.join(SPACE)
+          node.content = SPACE + node.content if has_leading_space
+          node.content = node.content + SPACE if has_trailing_space
+        elsif node.element?
+          if node.name == 'a'
+            node.attributes.each do |key, attribute|
+              if attribute.name == 'href'
+                attribute.value = store_precious_thing(attribute.value)
+              end
+            end
           end
-        }.join(SPACE)
-        node.content = new_content
+        end
       end
+    end
+
+    def store_if_precious(string)
+      Analyzer::precious?(string) ? store_precious_thing(string)
+                                  : string
+    end
+
+    def store_precious_thing(string)
+      # Create token identifier
+      token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
+      # Store value
+      @precious_things << string
+      # Return identifier
+      token
     end
 
     def restore_precious_things

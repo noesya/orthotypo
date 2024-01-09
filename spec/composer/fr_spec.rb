@@ -53,6 +53,10 @@ describe Orthotypo::Composer::Fr do
     expect("10 octobre 2023 16:00".ortho).to(eq("10 octobre 2023 16:00"))
   end
 
+  it 'does well with HTML' do
+    expect("<p><a href=\"https://www.linkedin.com/in/marie-dewet-1397a094/\">Marie Dewet</a>, Co-fondatrice de <a href=\"https://www.linkedin.com/company/maisoncleo/\">MaisonCléo</a> nous apporte ses lumières.</p>".ortho).to(eq("<p><a href=\"https://www.linkedin.com/in/marie-dewet-1397a094/\">Marie Dewet</a>, Co-fondatrice de <a href=\"https://www.linkedin.com/company/maisoncleo/\">MaisonCléo</a> nous apporte ses lumières.</p>"))
+  end
+
   # https://www.scribbr.fr/elements-linguistiques/les-espaces/
   it 'tests de Justine Debret' do
     expect("Elle a vu son cousin,sa tante et son oncle.Ils allaient tous très bien.".ortho).to(eq("Elle a vu son cousin, sa tante et son oncle. Ils allaient tous très bien."))

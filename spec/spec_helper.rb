@@ -1,2 +1,2 @@
 require 'byebug'
-require 'Orthotypo'
+require 'orthotypo'

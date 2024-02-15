@@ -73,6 +73,12 @@ module Orthotypo
       @contains_html_entities ||= html_entities.decode(string) != string
     end
 
+    def prepare_linebreaks
+      @string.gsub! "\r\n", "<br>"
+      @string.gsub! "\r", "<br>"
+      @string.gsub! "\n", "<br>"
+    end
+
     def prepare_ortho
       @ortho = string.dup
       @nokogiri = Nokogiri::HTML.fragment @ortho
@@ -83,6 +89,7 @@ module Orthotypo
     end
 
     def parse
+      prepare_linebreaks
       prepare_ortho
       preserve_precious_things
       # Chars

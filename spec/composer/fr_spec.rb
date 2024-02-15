@@ -26,7 +26,9 @@ describe Orthotypo::Composer::Fr do
   end
   
   it 'fixes space after simple punctuation' do
-    expect("mot,suite".ortho).to(eq("mot, suite"))
+    # Trop de cas particuliers avec ça
+    # expect("mot,suite".ortho).to(eq("mot, suite"))
+    expect("etudiant.gouv.fr".ortho).to(eq("etudiant.gouv.fr"))
     expect("4,5".ortho).to(eq("4,5"))
   end
 
@@ -59,10 +61,11 @@ describe Orthotypo::Composer::Fr do
 
   # https://www.scribbr.fr/elements-linguistiques/les-espaces/
   it 'tests de Justine Debret' do
-    expect("Elle a vu son cousin,sa tante et son oncle.Ils allaient tous très bien.".ortho).to(eq("Elle a vu son cousin, sa tante et son oncle. Ils allaient tous très bien."))
+    # L'automatisation suivante crée trop de cas particuliers (noms de domaines)
+    # expect("Elle a vu son cousin,sa tante et son oncle.Ils allaient tous très bien.".ortho).to(eq("Elle a vu son cousin, sa tante et son oncle. Ils allaient tous très bien."))
+    # expect("Elle ne disait plus rien…jusqu’au moment du repas.".ortho).to(eq("Elle ne disait plus rien… jusqu’au moment du repas."))
     expect("Elle dit: qui voudrait bien venir voir ce film? Il répond: moi; à moins qu’il ne fasse très beau!".ortho).to(eq("Elle dit : qui voudrait bien venir voir ce film ? Il répond : moi ; à moins qu’il ne fasse très beau !"))
     expect("L’ hiver ne va pas durer toute l’année.".ortho).to(eq("L’hiver ne va pas durer toute l’année."))
-    expect("Elle ne disait plus rien…jusqu’au moment du repas.".ortho).to(eq("Elle ne disait plus rien… jusqu’au moment du repas."))
     expect("Il a dit : «J’arrive ce matin ( ou plus tard ) à Paris [ rue de la République ] pour son anniversaire.»".ortho).to(eq("Il a dit : « J’arrive ce matin (ou plus tard) à Paris [rue de la République] pour son anniversaire. »"))
     # Le test suivant n'est pas automatisable, parce qu'on ne peut distinguer un Paris-Brest (le gâteau) d'un Paris - Brest (le trajet)
     # expect("Nous l’avons rencontré à Saint - Martin.".ortho).to(eq("Nous l’avons rencontré à Saint-Martin."))

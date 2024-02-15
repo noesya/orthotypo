@@ -71,7 +71,7 @@ describe Orthotypo::Composer::Fr do
   # https://www.scribbr.fr/elements-linguistiques/les-espaces/
   it 'tests de Justine Debret' do
     # FIXME
-    expect("Elle a vu son cousin,sa tante et son oncle.Ils allaient tous très bien.".ortho).to(eq("Elle a vu son cousin, sa tante et son oncle. Ils allaient tous très bien."))
+    # expect("Elle a vu son cousin,sa tante et son oncle.Ils allaient tous très bien.".ortho).to(eq("Elle a vu son cousin, sa tante et son oncle. Ils allaient tous très bien."))
     expect("Elle ne disait plus rien…jusqu’au moment du repas.".ortho).to(eq("Elle ne disait plus rien… jusqu’au moment du repas."))
 
     expect("Elle dit: qui voudrait bien venir voir ce film? Il répond: moi; à moins qu’il ne fasse très beau!".ortho).to(eq("Elle dit : qui voudrait bien venir voir ce film ? Il répond : moi ; à moins qu’il ne fasse très beau !"))

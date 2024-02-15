@@ -49,7 +49,6 @@ module Orthotypo
     def pairs_with_no_space_around
       [
         '“”',
-        '‘’',
         '‹›',
         '""',
         "''",

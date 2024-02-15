@@ -214,8 +214,8 @@ module Orthotypo
         fix(opening + SPACE, opening + NNBSP)
         fix(SPACE + closing, NNBSP + closing)
         # Pas d'espace -> espace fine insécable
-        fix(/[#{opening}]([^[:space:]])/, opening + NNBSP + "\\1")
-        fix(/([^[:space:]])[#{closing}]/, "\\1" + NNBSP + closing)
+        fix(/#{Regexp.quote(opening)}([^[:space:]])/, opening + NNBSP + "\\1")
+        fix(/([^[:space:]])#{Regexp.quote(closing)}/, "\\1" + NNBSP + closing)
       end
     end
 
@@ -224,7 +224,7 @@ module Orthotypo
         opening = marks.chars.first
         closing = marks.chars.last
         # Espace -> pas d'espace
-        fix(/[#{opening}][[:space:]]([[:alpha:]]*)[[:space:]][#{closing}]/, opening + "\\1" + closing)
+        fix(/#{Regexp.quote(opening)}[[:space:]](.+)[[:space:]]#{Regexp.quote(closing)}/, opening + "\\1" + closing)
       end
     end
 

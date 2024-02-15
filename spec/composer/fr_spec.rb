@@ -38,10 +38,10 @@ describe Orthotypo::Composer::Fr do
     expect("«mot»".ortho).to(eq("« mot »"))
     expect("« mot »".ortho).to(eq("« mot »"))
     expect("“ mot ”".ortho).to(eq("“mot”"))
-    expect("‘ mot ’".ortho).to(eq("‘mot’"))
     expect("‹ mot ›".ortho).to(eq("‹mot›"))
     expect("\" mot \"".ortho).to(eq("\"mot\""))
     expect("' mot '".ortho).to(eq("'mot'"))
+    expect("( une phrase entre parenthèses )".ortho).to(eq("(une phrase entre parenthèses)"))
     expect('photos "On the Job", stock'.ortho).to(eq('photos "On the Job", stock'))
   end
 

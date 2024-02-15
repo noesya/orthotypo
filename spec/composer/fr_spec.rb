@@ -27,6 +27,7 @@ describe Orthotypo::Composer::Fr do
 
   it 'fixes space after simple punctuation' do
     expect("mot,suite".ortho).to(eq("mot, suite"))
+    expect("84.Paris".ortho).to(eq("84.Paris"))
     expect("etudiant.gouv.fr".ortho).to(eq("etudiant.gouv.fr"))
     expect("4,5".ortho).to(eq("4,5"))
     expect("4.5".ortho).to(eq("4.5"))

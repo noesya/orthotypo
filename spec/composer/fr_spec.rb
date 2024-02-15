@@ -67,7 +67,7 @@ describe Orthotypo::Composer::Fr do
   it 'manages linebreaks' do
     expect("A parallel between wildlife and urban ensembles.\r\rShot during summer 2014 on our trip from north to south of Portugal.".ortho).to(eq("A parallel between wildlife and urban ensembles.<br><br>Shot during summer 2014 on our trip from north to south of Portugal."))
   end
-  
+
   it 'preservers URLs' do
     expect("https://hal.science/hal-02455856".ortho).to(eq("https://hal.science/hal-02455856"))
   end

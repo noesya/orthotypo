@@ -57,6 +57,11 @@ describe Orthotypo::Composer::Fr do
 
   it 'does well with HTML' do
     expect("<p><a href=\"https://www.linkedin.com/in/marie-dewet-1397a094/\">Marie Dewet</a>, Co-fondatrice de <a href=\"https://www.linkedin.com/company/maisoncleo/\">MaisonCléo</a> nous apporte ses lumières.</p>".ortho).to(eq("<p><a href=\"https://www.linkedin.com/in/marie-dewet-1397a094/\">Marie Dewet</a>, Co-fondatrice de <a href=\"https://www.linkedin.com/company/maisoncleo/\">MaisonCléo</a> nous apporte ses lumières.</p>"))
+    expect("<p></p><p>Nous aimons la qualité</p><p></p>".ortho).to(eq("<p></p><p>Nous aimons la qualité</p><p></p>"))
+  end
+
+  it 'manages linebreaks' do
+    expect("A parallel between wildlife and urban ensembles.\r\rShot during summer 2014 on our trip from north to south of Portugal.".ortho).to(eq("A parallel between wildlife and urban ensembles.\r\rShot during summer 2014 on our trip from north to south of Portugal."))
   end
 
   # https://www.scribbr.fr/elements-linguistiques/les-espaces/

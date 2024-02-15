@@ -31,8 +31,12 @@ module Orthotypo
         '.'
       ]
     end
-    
+
     def chars_with_space_around
+      []
+    end
+
+    def chars_with_no_space_before
       []
     end
 
@@ -43,7 +47,7 @@ module Orthotypo
     def pairs_with_space_around
       []
     end
-    
+
     def pairs_with_no_space_around
       []
     end
@@ -57,7 +61,7 @@ module Orthotypo
 
     def chars_in_numbers
       [
-        '.', 
+        '.',
         ',',
         '/',
         ':'
@@ -97,6 +101,7 @@ module Orthotypo
       parse_chars_with_space_before_after_digit
       parse_chars_with_space_after
       parse_chars_with_space_around
+      parse_chars_with_no_space_before
       parse_chars_with_no_space_around
       # Pairs
       parse_pairs_with_space_around
@@ -115,7 +120,7 @@ module Orthotypo
           has_leading_space = node.content.start_with? SPACE
           has_trailing_space = node.content.end_with? SPACE
           node.content = node.content.split(SPACE).map { |fragment|
-            store_if_precious(fragment)  
+            store_if_precious(fragment)
           }.join(SPACE)
           node.content = SPACE + node.content if has_leading_space
           node.content = node.content + SPACE if has_trailing_space
@@ -156,23 +161,23 @@ module Orthotypo
         # Espace normal avant -> espace fine insécable avant
         fix(SPACE + char, NNBSP + char)
         # Pas d'espace avant -> espace fine insécable avant
-        fix(/([[:alpha:]])[#{char}]/, "\\1" + NNBSP + char)
+        fix(/([[:alpha:]])#{Regexp.quote(char)}/, "\\1" + NNBSP + char)
       end
     end
 
     def parse_chars_with_space_before_after_digit
       chars_with_space_before_after_digit.each do |char|
-        fix(/([[:digit:]])[#{char}]/, "\\1" + NNBSP + char)
+        fix(/([[:digit:]])#{Regexp.quote(char)}/, "\\1" + NNBSP + char)
       end
     end
 
     def parse_chars_with_space_after
       chars_with_space_after.each do |char|
-        # Espace avant -> pas d'espace avant 
+        # Espace avant -> pas d'espace avant
         fix(SPACE + char, char)
         # Pas d'espace après -> espace après
         # FIXME
-        fix(/[#{char}]([[:alpha:]])/, char + SPACE + "\\1")
+        fix(/#{Regexp.quote(char)}([[:alpha:]])/, char + SPACE + "\\1")
       end
     end
 
@@ -181,15 +186,22 @@ module Orthotypo
         # Espace normal avant -> espace fine insécable avant
         fix(SPACE + char, NNBSP + char)
         # Pas d'espace avant -> espace fine insécable avant
-        fix(/([[:alpha:]])[#{char}]/, "\\1" + NNBSP + char)
+        fix(/([[:alpha:]])#{Regexp.quote(char)}/, "\\1" + NNBSP + char)
+      end
+    end
+
+    def parse_chars_with_no_space_before
+      chars_with_no_space_before.each do |char|
+        # Espace avant -> pas d'espace avant
+        fix(SPACE + char, char)
       end
     end
 
     def parse_chars_with_no_space_around
       chars_with_no_space_around.each do |char|
-        # Espace avant -> pas d'espace avant 
+        # Espace avant -> pas d'espace avant
         fix(SPACE + char, char)
-        # Espace après -> pas d'espace après 
+        # Espace après -> pas d'espace après
         fix(char + SPACE, char)
       end
     end
@@ -218,9 +230,9 @@ module Orthotypo
 
     def parse_chars_in_numbers
       chars_in_numbers.each do |char|
-        fix(/([[:digit:]])[[:space:]][#{char}]([[:digit:]])/, "\\1" + char + "\\2")
-        fix(/([[:digit:]])[[:space:]][#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
-        fix(/([[:digit:]])[#{char}][[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
+        fix(/([[:digit:]])[[:space:]]#{Regexp.quote(char)}([[:digit:]])/, "\\1" + char + "\\2")
+        fix(/([[:digit:]])[[:space:]]#{Regexp.quote(char)}[[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
+        fix(/([[:digit:]])#{Regexp.quote(char)}[[:space:]]([[:digit:]])/, "\\1" + char + "\\2")
       end
     end
 

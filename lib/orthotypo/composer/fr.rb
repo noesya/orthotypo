@@ -12,18 +12,23 @@ module Orthotypo
     def chars_with_space_after
       [
         ',',
-        '.',
         '...',
         '…'
       ]
     end
-    
+
     def chars_with_space_around
       [
         ';',
         ':',
         '!',
         '?'
+      ]
+    end
+
+    def chars_with_no_space_before
+      [
+        '.'
       ]
     end
 
@@ -40,7 +45,7 @@ module Orthotypo
         '«»'
       ]
     end
-    
+
     def pairs_with_no_space_around
       [
         '“”',

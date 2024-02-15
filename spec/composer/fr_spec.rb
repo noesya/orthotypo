@@ -5,7 +5,7 @@ describe Orthotypo::Composer::Fr do
   it 'adds spaces before double punctuation marks' do
     expect("mot: suite".ortho).to(eq("mot : suite"))
     expect("é: suite".ortho).to(eq("é : suite"))
-    # Pas automatisable, parce que 11:20
+    # Pas automatisable, parce qu'on peut écrire une heure 11:20
     # expect("1: suite".ortho).to(eq("1 : suite"))
     expect("mot; suite".ortho).to(eq("mot ; suite"))
     expect("mot!".ortho).to(eq("mot !"))
@@ -30,8 +30,8 @@ describe Orthotypo::Composer::Fr do
     expect("etudiant.gouv.fr".ortho).to(eq("etudiant.gouv.fr"))
     expect("4,5".ortho).to(eq("4,5"))
     expect("4.5".ortho).to(eq("4.5"))
-    # Le test suivant, on ne fait rien, on ne peut pas résoudre, car s'apparente au cas précédent.
-    expect("Il est né en 1984.5 maisons en paille".ortho).to(eq("Il est né en 1984.5 maisons en paille"))
+    # Le test suivant, on ne fait rien, on ne peut pas résoudre, car s'apparente au cas précédent (1984.5)
+    # expect("Il est né en 1984.5 maisons en paille".ortho).to(eq("Il est né en 1984. 5 maisons en paille"))
   end
 
   it 'fixes quotation marks' do
@@ -68,7 +68,7 @@ describe Orthotypo::Composer::Fr do
     expect("A parallel between wildlife and urban ensembles.\r\rShot during summer 2014 on our trip from north to south of Portugal.".ortho).to(eq("A parallel between wildlife and urban ensembles.<br><br>Shot during summer 2014 on our trip from north to south of Portugal."))
   end
 
-  it 'preservers URLs' do
+  it 'preserves URLs' do
     expect("https://hal.science/hal-02455856".ortho).to(eq("https://hal.science/hal-02455856"))
   end
 

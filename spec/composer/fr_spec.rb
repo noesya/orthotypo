@@ -17,20 +17,21 @@ describe Orthotypo::Composer::Fr do
     expect("é : suite".ortho).to(eq("é : suite"))
     expect("1 : suite".ortho).to(eq("1 : suite"))
   end
-  
+
   it 'fixes space before simple punctuation' do
     expect("mot , suite".ortho).to(eq("mot, suite"))
     expect("mot . suite".ortho).to(eq("mot. suite"))
     expect("l 'approche".ortho).to(eq("l'approche"))
     expect("l' approche".ortho).to(eq("l'approche"))
   end
-  
+
   it 'fixes space after simple punctuation' do
-    # FIXME
     expect("mot,suite".ortho).to(eq("mot, suite"))
-    # FIXME
     expect("etudiant.gouv.fr".ortho).to(eq("etudiant.gouv.fr"))
     expect("4,5".ortho).to(eq("4,5"))
+    expect("4.5".ortho).to(eq("4.5"))
+    # Le test suivant, on ne fait rien, on ne peut pas résoudre, car s'apparente au cas précédent.
+    expect("Il est né en 1984.5 maisons en paille".ortho).to(eq("Il est né en 1984.5 maisons en paille"))
   end
 
   it 'fixes quotation marks' do
@@ -69,7 +70,6 @@ describe Orthotypo::Composer::Fr do
   it 'tests de Justine Debret' do
     # FIXME
     expect("Elle a vu son cousin,sa tante et son oncle.Ils allaient tous très bien.".ortho).to(eq("Elle a vu son cousin, sa tante et son oncle. Ils allaient tous très bien."))
-    # FIXME
     expect("Elle ne disait plus rien…jusqu’au moment du repas.".ortho).to(eq("Elle ne disait plus rien… jusqu’au moment du repas."))
     expect("Elle dit: qui voudrait bien venir voir ce film? Il répond: moi; à moins qu’il ne fasse très beau!".ortho).to(eq("Elle dit : qui voudrait bien venir voir ce film ? Il répond : moi ; à moins qu’il ne fasse très beau !"))
     expect("L’ hiver ne va pas durer toute l’année.".ortho).to(eq("L’hiver ne va pas durer toute l’année."))

@@ -170,8 +170,9 @@ module Orthotypo
       chars_with_space_after.each do |char|
         # Espace avant -> pas d'espace avant 
         fix(SPACE + char, char)
-        # Pas d'espace après -> espace après : suspendu, trop d'effets de bord 
-        # fix(/[#{char}]([[:alpha:]])/, char + SPACE + "\\1")
+        # Pas d'espace après -> espace après
+        # FIXME
+        fix(/[#{char}]([[:alpha:]])/, char + SPACE + "\\1")
       end
     end
 

@@ -212,8 +212,7 @@ module Orthotypo
         opening = marks.chars.first
         closing = marks.chars.last
         # Espace -> pas d'espace
-        fix(opening + SPACE, opening)
-        fix(SPACE + closing, closing)
+        fix(/[#{opening}][[:space:]]([[:alpha:]]*)[[:space:]][#{closing}]/, opening + "\\1" + closing)
       end
     end
 

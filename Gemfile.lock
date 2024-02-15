@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    orthotypo (1.0.2)
+    orthotypo (1.0.3)
       htmlentities
       nokogiri
 

@@ -2,6 +2,7 @@
 
 require "htmlentities"
 require "nokogiri"
+require "securerandom"
 require "uri"
 require_relative "orthotypo/analyzer"
 require_relative "orthotypo/composer"

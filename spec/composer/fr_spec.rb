@@ -97,4 +97,12 @@ describe Orthotypo::Composer::Fr do
     # expect("Il en compte 1,000, 10,000, 36,742, 500,000, puis 1,000,000, 25,000,000, etc.".ortho).to(eq("Il en compte 1 000, 10 000, 36 742, 500 000, puis 1 000 000, 25 000 000, etc."))
     # expect("Le numéro gagnant est le 3 541 672.".ortho).to(eq("Le numéro gagnant est le 3541672."))
   end
+
+  it 'preserves all URLs' do
+    # Generates '<a href="https://example0.fr\">Example 0</a><a href="https://example1.fr\">Example 1</a><a href="https://example2.fr\">Example 2</a>...'
+    input = (0..12).map { |n|
+      "<a href=\"https://example#{n}.fr\">Example #{n}</a>"
+    }.join
+    expect(input.ortho).to(eq(input))
+  end
 end

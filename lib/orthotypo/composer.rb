@@ -114,7 +114,7 @@ module Orthotypo
     end
 
     def preserve_precious_things
-      @precious_things = []
+      @precious_things = {}
       @nokogiri.traverse do |node|
         if node.text?
           has_leading_space = node.content.start_with? SPACE
@@ -143,16 +143,17 @@ module Orthotypo
 
     def store_precious_thing(string)
       # Create token identifier
-      token = "#{PRECIOUS_TOKEN}#{@precious_things.length}"
+      uid = SecureRandom.hex
+      token = "#{PRECIOUS_TOKEN}-#{uid}"
       # Store value
-      @precious_things << string
+      @precious_things[uid] = string
       # Return identifier
       token
     end
 
     def restore_precious_things
-      @precious_things.each_with_index do |value, index|
-        @ortho.gsub! "#{PRECIOUS_TOKEN}#{index}", value
+      @precious_things.each do |uid, value|
+        @ortho.gsub! "#{PRECIOUS_TOKEN}-#{uid}", value
       end
     end
 

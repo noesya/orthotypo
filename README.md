@@ -4,6 +4,8 @@
 
 Il y a un corpus riche de règles typographiques, dépendant des langues. 
 Cette gem vise à intégrer ces règles et à automatiser leurs mises en application pour le web, quand cela est possible.
+La version 1 créait des effets de bord, en tentant d'implémenter trop de logiques.
+La version 2 est beaucoup plus modeste.
 
 ## Installation
 
@@ -17,22 +19,12 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-Ajout d'espace fine insécable avant les signes doubles en français.
+Remplacement d'espace par un espace insécable avant les signes doubles.
 
 ```
-"Un texte avec un signe double: mais il manque l'espace.".ortho
-> Un texte avec un signe double : mais il manque l'espace.
-
+"Un texte avec un espace devant un signe double : mais il manque l'espace insécable.".ortho
+> Un texte avec un espace devant un signe double : mais il manque l'espace insécable.
 ```
-
-## Roadmap
-
-### v1
-Ne pas endommager l'HTML et les HTML entities (&nbsp;)
-
-### v2
-S'adapter aux locales (détecter I18n)
-Permettre les configs
 
 ## Tests
 

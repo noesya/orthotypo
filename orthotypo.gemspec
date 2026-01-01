@@ -5,8 +5,8 @@ require_relative "lib/orthotypo/version"
 Gem::Specification.new do |spec|
   spec.name = "orthotypo"
   spec.version = Orthotypo::VERSION
-  spec.authors = ["Arnaud Levy"]
-  spec.email = ["arnaud.levy@noesya.coop"]
+  spec.authors = ["Arnaud Levy", "Sébastien Gaya"]
+  spec.email = ["arnaud.levy@noesya.coop", "sebastien.gaya@noesya.coop"]
 
   spec.summary = "Pour un texte correctement typographié"
   spec.description = "Il y a un corpus riche de règles typographiques, dépendant des langues. Cette gem vise à intégrer ces règles et à automatiser leur mise en application pour le web, quand cela est possible."
@@ -19,9 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.files = `git ls-files`.split("\n")
   spec.require_paths = "lib"
-
-  spec.add_dependency "htmlentities"
-  spec.add_dependency "nokogiri"
 
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-nc"

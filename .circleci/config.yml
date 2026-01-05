@@ -31,7 +31,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            bundle exec rake test $(circleci tests glob "spec/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rake
 workflows:
   version: 2
   deploy:

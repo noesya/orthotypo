@@ -5,10 +5,33 @@ jobs:
       - image: cimg/ruby:3.4.7-node
     steps:
       - checkout
-      - ruby/install-deps
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # Bundler configuration
       - run:
-          name: Run tests
-          command: bundle exec rake
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+      # Install gem dependencies
+      - run:
+          name: install dependencies
+          command: |
+            bundle config set path 'vendor/bundle'
+            bundle install --jobs=4 --retry=3
+      # Store bundle cache
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            bundle exec rake test $(circleci tests glob "spec/*_spec.rb" | circleci tests split --split-by=timings)
 workflows:
   version: 2
   deploy:
